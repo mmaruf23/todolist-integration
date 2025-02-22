@@ -7,7 +7,7 @@ import {
   getTodosByTitle,
   getTodosByUser,
 } from '@/services/todolist';
-import { CirclePlus, Plus, SquarePlus } from 'lucide-react';
+import { SquarePlus } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 
@@ -95,7 +95,7 @@ export default function Todolist() {
 
           <div className="mt-4 space-y-4">
             <div className="space-y-4">
-              {todos.map((todo) => (
+              {todos?.map((todo) => (
                 <TodolistCard
                   key={todo.id}
                   todo={todo}

@@ -1,6 +1,7 @@
 import Navbar from '@/components/molecules/Navbar';
 import { getProfile } from '@/services/auth';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Activity, Pencil, Trash2 } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -17,22 +18,18 @@ export default function Profile() {
 
   const getUserDetail = async (token) => {
     const res = await getProfile(token);
-    if (res.data?.status == 200){
-      setProfile
-      (res.data.data);
-      console.log
-      (res.data.data);
+    if (res.data?.status == 200) {
+      setProfile(res.data.data);
+      console.log(res.data.data);
     } else {
       console.log(res);
-      
-      console.log("Gagal ambil data profile");
-      
-    } 
-    
+
+      console.log('Gagal ambil data profile');
+    }
   };
 
   const handleEdit = (profile) => {
-    router.push(`/todolist/profile/${profile}`)
+    router.push(`/todolist/profile/${profile}`);
   };
 
   return (
@@ -60,28 +57,26 @@ export default function Profile() {
             <strong>Terakhir Update:</strong>{' '}
             {new Date(profile.updatedAt).toLocaleString()}
           </p>
-          {/* <p className="text-gray-700">
-          <strong>Jumlah To-Do List:</strong> {profile.todo_count}
-          </p>
-          <ul className="list-disc list-inside text-gray-600">
-          <li>
-          <strong>Selesai:</strong> {profile.todo_completed}
-          </li>
-          <li>
-            <strong>Dalam Progres:</strong> {profile.todo_in_progress}
-          </li>
-          </ul> */}
         </div>
         <div className="mt-6 flex justify-center gap-4">
           <button
-            className="flex items-center justify-around w-24 p-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-800 transition-all"
+            className="flex items-center justify-around gap-3 px-3 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-800 transition-all"
             onClick={() => {
-              handleEdit(profile.username)
+              handleEdit(profile.username);
             }}
           >
             <Pencil />
             <span>Edit</span>
           </button>
+          {(profile.role == "ADMIN") && (
+            <Link
+              href={'/todolist/dashboard'}
+              className="flex items-center justify-around gap-3 px-3 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-800 transition-all"
+            >
+              <Activity />
+              <span>Admin</span>
+            </Link>
+          )}
         </div>
       </div>
     </>
